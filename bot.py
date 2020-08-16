@@ -166,6 +166,42 @@ async def on_message(message):
             return
         
 
+#####online
+        
+    if message.content.startswith("!online"):
+        file = open('usernames.txt', 'r')
+        filedata = json.load(file)
+        print(len(message.mentions))
+        if len(message.mentions) == 0:
+            await message.channel.send("Please mention a user to see if they are online (e.g. !online @user)")
+            return
+        if len(message.mentions) == 1:
+            mention = ((message.mentions[0]).name + "#" + (message.mentions[0]).discriminator)
+            print(mention)
+            #print(message.mentions)
+            x = message.guild.members
+            for member in x:   #iterates through server members
+                #print(member.name)   #troubleshooting ;)
+                #print(type(member.activity))
+                #print(member.activity)
+                #print(message.mentions)
+
+        
+                if mention == str(member):
+                    if type(member.activity) == discord.activity.Activity and member.activity.name == "League of Legends":   #for some reason it's not activity.Game and i got stuck on this for ages
+                        if member.activity.details == None and member.activity.state == None: #if you're streaming league sometimes it says you're playing it but things like mode are set to None
+                            await message.channel.send("%s is currently not in a lobby or game" % member) 
+                            
+                        if member.activity.state == "In Game": #displays the character being played if you're in a game (character name is only shown in the image when you click on profile weirdly
+                            gametime = convert((time.time() - ((member.activity.timestamps["start"])/1000)))
+                            await message.channel.send("%s is playing %s (%s %s) as %s" % (member, member.activity.details, member.activity.state, gametime, member.activity.large_image_text))
+
+                        else:
+                            if member.activity.details == None:    #for some reason practice tool doesn't have its own details section, but everything else does
+                                member.activity.details = "Practice Tool"
+                            await message.channel.send("%s is playing %s (%s)" % (member, member.activity.details, member.activity.state)) #Member is playing Mode (in game or in lobby)
+                    else:
+                        await message.channel.send("User is not currently playing playing League of Legends")
 
 #####about
     if message.content == "!about":
@@ -283,7 +319,7 @@ please report any bugs to Wimble#8807''')
                 registration_code = 0
                 return
 
-client.run('NzM4OTE2NTQxMDM4NDYwOTc5.XyS3pw.lEK0_tK75QQjweLz21AiZE4VxsA')
+client.run('NzM4OTE2NTQxMDM4NDYwOTc5.XyS3pw.HMN_ePi99TIWl7gQyCvVpzJChMM')
 
 
 '''''
