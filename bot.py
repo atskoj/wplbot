@@ -319,7 +319,7 @@ please report any bugs to Wimble#8807''')
                 registration_code = 0
                 return
 
-client.run('NzM4OTE2NTQxMDM4NDYwOTc5.XyS3pw.HMN_ePi99TIWl7gQyCvVpzJChMM')
+client.run('INSERT DISCORD BOT TOKEN')
 
 
 '''''
